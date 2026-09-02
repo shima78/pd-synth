@@ -1,0 +1,46 @@
+# Stage 1 baseline: validate the pipeline mechanics on MNIST.
+# MNIST is not scarce, so this config is for checking that data loading,
+# generation, sampling, and classification all work end-to-end - not for
+# testing the boundary-sampling hypothesis itself. See README.md.
+
+seed: 42
+
+data:
+  name: mnist
+  root: data/mnist
+  download: true
+  batch_size: 128
+  num_workers: 2
+
+generator:
+  image_size: 28
+  in_channels: 1
+  out_channels: 1
+  layers_per_block: 2
+  block_out_channels: [32, 64]
+  num_train_timesteps: 1000
+  norm_num_groups: 32
+  num_epochs: 20
+  lr: 0.0001
+  num_inference_steps: 50
+  # When true, the UNet is conditioned on the dataset's class labels
+  # (dataset.num_classes), so generated samples can be requested by class -
+  # needed to produce a truly-labeled synthetic training set.
+  class_conditional: true
+  # Log a TensorBoard sample-grid preview every N epochs (plus always the
+  # final one), so the Images tab slider has more than one step to scrub.
+  preview_every: 5
+
+classifier:
+  image_size: 28
+  in_channels: 1
+  num_classes: 10
+  num_epochs: 5
+  lr: 0.001
+
+sampling:
+  oversample_factor: 4.0
+  num_synthetic_samples: 1000
+
+output:
+  dir: outputs/mnist_baseline

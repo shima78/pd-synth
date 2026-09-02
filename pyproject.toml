@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pd-synth"
+version = "0.1.0"
+description = "Paired, boundary-focused synthetic data generation research for Parkinson's disease detection. Pipeline validated on MNIST before moving to real gait/pose data."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "torch",
+    "torchvision",
+    "diffusers",
+    "pillow",
+    "numpy",
+    "pyyaml",
+    "tensorboard",
+    "streamlit",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

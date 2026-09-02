@@ -1,0 +1,51 @@
+# Stage 1, full-budget synthetic comparison: train a classifier on 60,000
+# generated images - the same data budget as the full real MNIST training
+# set - and evaluate on the real MNIST test set. This isolates "real vs.
+# synthetic" from "more data vs. less data": compare its val_accuracy
+# directly against the full-real classifier (outputs/mnist_baseline/
+# classifier_metrics.yaml, 0.9834).
+#
+# Reuses the generator and full-real classifier already in
+# outputs/mnist_baseline/ (output.dir is unchanged). Run with:
+#   python experiments/train_classifier_on_synthetic.py \
+#     --config configs/mnist_synth_full.yaml --label full
+# Outputs: outputs/mnist_baseline/classifier_on_synthetic_full*
+
+seed: 42
+
+data:
+  name: mnist
+  root: data/mnist
+  download: true
+  batch_size: 128
+  num_workers: 2
+
+generator:
+  image_size: 28
+  in_channels: 1
+  out_channels: 1
+  layers_per_block: 2
+  block_out_channels: [32, 64]
+  num_train_timesteps: 1000
+  norm_num_groups: 32
+  num_epochs: 20
+  lr: 0.0001
+  num_inference_steps: 50
+  class_conditional: true
+  preview_every: 5
+
+classifier:
+  image_size: 28
+  in_channels: 1
+  num_classes: 10
+  num_epochs: 5
+  lr: 0.001
+
+sampling:
+  oversample_factor: 4.0
+  # Match the full real MNIST training set size so the only variable vs. the
+  # full-real classifier is real vs. synthetic images.
+  num_synthetic_samples: 60000
+
+output:
+  dir: outputs/mnist_baseline
