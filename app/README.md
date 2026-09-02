@@ -20,9 +20,23 @@ for a given config (defaults to `configs/mnist_baseline.yaml`; override with the
 
 The app is dataset-agnostic - it only depends on the `LabeledImageDataset`
 interface and the saved config/checkpoint files, so it works unmodified once a
-real dataset config replaces `mnist_baseline.yaml`. It's deployable as-is to
-Streamlit Community Cloud, provided the `outputs/<run>/` directory it points at
-is available to the deployed app.
+real dataset config replaces `mnist_baseline.yaml`.
+
+## Deploying to Streamlit Community Cloud
+
+The repo is deploy-ready:
+
+- `requirements.txt` (repo root) pins the runtime deps and installs `pd_synth`
+  from the `src/` layout; CPU-only PyTorch wheels keep the image small.
+- `.python-version` pins Python 3.10.
+- `.streamlit/config.toml` holds app-level preferences.
+- The trained `outputs/mnist_baseline/` run (generator + classifier `.pt` files
+  + metric YAMLs, ~4 MB) is committed, so the app has something to load. MNIST
+  itself is downloaded on first run (`data.download: true`).
+
+Steps: push to GitHub, then on [share.streamlit.io](https://share.streamlit.io)
+create an app from this repo with main file `app/streamlit_app.py` (Python 3.10).
+It redeploys automatically on every push.
 
 ## Layout
 

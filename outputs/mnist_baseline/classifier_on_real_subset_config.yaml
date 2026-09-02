@@ -1,0 +1,33 @@
+seed: 42
+data:
+  name: mnist
+  root: data/mnist
+  download: true
+  batch_size: 128
+  num_workers: 2
+generator:
+  image_size: 28
+  in_channels: 1
+  out_channels: 1
+  layers_per_block: 2
+  block_out_channels:
+  - 32
+  - 64
+  num_train_timesteps: 1000
+  norm_num_groups: 32
+  num_epochs: 20
+  lr: 0.0001
+  num_inference_steps: 50
+  class_conditional: true
+  preview_every: 5
+classifier:
+  image_size: 28
+  in_channels: 1
+  num_classes: 10
+  num_epochs: 5
+  lr: 0.001
+sampling:
+  oversample_factor: 4.0
+  num_synthetic_samples: 1000
+output:
+  dir: outputs/mnist_baseline

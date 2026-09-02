@@ -1,0 +1,21 @@
+# Runtime dependencies for the Streamlit demo (app/streamlit_app.py).
+# Pinned to the versions used in development so a cloud deploy is reproducible.
+# Training-only extras (tensorboard) live in pyproject.toml's [train] extra.
+
+# CPU-only PyTorch wheels - the deploy target has no GPU, and the full CUDA
+# wheels are multi-GB.
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+torch==2.13.0
+torchvision==0.28.0
+diffusers==0.40.0
+streamlit==1.62.0
+altair==6.2.2
+pandas==2.3.3
+numpy==2.2.6
+pillow==12.0.0
+pyyaml==6.0.3
+
+# The pd_synth package itself (src/ layout). Its own dependency list in
+# pyproject.toml is a subset of the pins above, so nothing new is resolved.
+.

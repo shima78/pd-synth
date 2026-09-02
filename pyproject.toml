@@ -16,12 +16,14 @@ dependencies = [
     "pillow",
     "numpy",
     "pyyaml",
-    "tensorboard",
     "streamlit",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff"]
+# TensorBoard is only imported by experiments/train_generator.py for logging;
+# the library and the demo app never touch it, so it's an opt-in extra.
+train = ["tensorboard"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

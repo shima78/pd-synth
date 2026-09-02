@@ -1,0 +1,8 @@
+# Project-level Streamlit config. Server/network options are left to the
+# deploy platform; this only sets app-level preferences.
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "light"
